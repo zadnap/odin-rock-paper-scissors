@@ -53,3 +53,17 @@ for (i = 0; i < 5; i++) {
 
     playRound(humanSelection, computerSelection)
 }
+
+function showResult(humanScore, computerScore) {
+    if (humanScore === computerScore) {
+        alert('Tie!')
+    }
+    else if (humanScore > computerScore) {
+        alert("You win!")
+    }
+    else {
+        alert("You lose!")
+    }
+}
+
+showResult(humanScore, computerScore)

@@ -13,7 +13,43 @@ function computerChoice() {
 function humanChoice() {
     const choice = prompt("Rock, paper, or scissors ?").toLowerCase()
     if (choice != 'rock' && choice != 'paper' && choice != 'scissors') {
-        return "Invalid option"
+        alert('Invalid option')
+        return
     }
     return choice
+}
+
+let computerScore = 0
+let humanScore = 0
+
+function playRound(humanChoice, computerChoice) {
+    console.log(`You: ${humanChoice}, Computer: ${computerChoice}`);
+
+    if (humanChoice === computerChoice) {
+        console.log('Tie!');
+    }
+    else if (humanChoice === 'paper' && computerChoice === 'rock' || humanChoice === 'scissors' && computerChoice === 'paper' || humanChoice === 'rock' && computerChoice === 'scissors') {
+        console.log('You wins!')
+        ++humanScore
+    }
+    else {
+        console.log('You lose!');
+        ++computerScore
+    }
+
+    console.log('Your score:', humanScore);
+    console.log("Computer's score:", computerScore);
+    console.log('\n')
+}
+
+// Let the user play 5 rounds
+for (i = 0; i < 5; i++) {
+    const computerSelection = computerChoice()
+    let humanSelection
+    
+    do {
+        humanSelection = humanChoice()
+    } while (!humanSelection);
+
+    playRound(humanSelection, computerSelection)
 }

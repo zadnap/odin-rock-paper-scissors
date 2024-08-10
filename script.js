@@ -9,3 +9,11 @@ function computerChoice() {
             return 'scissors'
     }
 }
+
+function humanChoice() {
+    const choice = prompt("Rock, paper, or scissors ?").toLowerCase()
+    if (choice != 'rock' && choice != 'paper' && choice != 'scissors') {
+        return "Invalid option"
+    }
+    return choice
+}

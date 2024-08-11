@@ -10,60 +10,86 @@ function computerChoice() {
     }
 }
 
-function humanChoice() {
-    const choice = prompt("Rock, paper, or scissors ?").toLowerCase()
-    if (choice != 'rock' && choice != 'paper' && choice != 'scissors') {
-        alert('Invalid option')
-        return
+function humanChoice(index) {
+    let choice = ''
+    switch (index) {
+        case 0:
+            choice = 'rock'
+            break;
+        case 1:
+            choice = 'paper'
+            break;
+        case 2:
+            choice = 'scissors'
+            break;
+        default:
+            choice = undefined
+            break;
     }
     return choice
 }
 
 let computerScore = 0
 let humanScore = 0
+let currentRound = 1
 
 function playRound(humanChoice, computerChoice) {
-    console.log(`You: ${humanChoice}, Computer: ${computerChoice}`);
+    // This function let the user play until they or the computer 
+    // get 5 points and show the winner of the game
+    const round = document.querySelector('.current-round span')
+    const humanOption = document.querySelector('.player-options .human span')
+    const computerOption = document.querySelector('.player-options .computer span')
+    const winner = document.querySelector('.winner span')
+    const humanPoints = document.querySelector('.scores .human span')
+    const computerPoints = document.querySelector('.scores .computer span')
+    const finalResult = document.querySelector('.final-result')
+
+    round.textContent = currentRound
+    humanOption.textContent = humanChoice
+    computerOption.textContent = computerChoice
 
     if (humanChoice === computerChoice) {
-        console.log('Tie!');
+        winner.textContent = 'Tie!'
     }
     else if (humanChoice === 'paper' && computerChoice === 'rock' || humanChoice === 'scissors' && computerChoice === 'paper' || humanChoice === 'rock' && computerChoice === 'scissors') {
-        console.log('You wins!')
+        winner.textContent = "You"
         ++humanScore
     }
     else {
-        console.log('You lose!');
+        winner.textContent = 'Computer'
         ++computerScore
     }
 
-    console.log('Your score:', humanScore);
-    console.log("Computer's score:", computerScore);
-    console.log('\n')
-}
+    humanPoints.textContent = humanScore
+    computerPoints.textContent = computerScore
 
-// Let the user play 5 rounds
-for (i = 0; i < 5; i++) {
-    const computerSelection = computerChoice()
-    let humanSelection
-    
-    do {
-        humanSelection = humanChoice()
-    } while (!humanSelection);
+    if (computerScore === 5 || humanScore === 5) {
+        const result = document.createElement('h1')
 
-    playRound(humanSelection, computerSelection)
-}
+        if (computerScore === 5)
+            result.innerHTML = `The winner is: <span>Computer</span>`
+        else
+            result.innerHTML = `The winner is: <span>You</span>`
 
-function showResult(humanScore, computerScore) {
-    if (humanScore === computerScore) {
-        alert('Tie!')
-    }
-    else if (humanScore > computerScore) {
-        alert("You win!")
+        finalResult.appendChild(result)
+
+        computerScore = 0
+        humanScore = 0
+        currentRound = 1
     }
     else {
-        alert("You lose!")
+        currentRound++
+        finalResult.innerHTML = ''
     }
 }
 
-showResult(humanScore, computerScore)
+const options = document.querySelectorAll('.option')
+options.forEach((opt, index) => {
+    opt.addEventListener('click', () => {
+        const humanSelection = humanChoice(index)
+        const computerSelection = computerChoice()
+
+        if (humanSelection)
+            playRound(humanSelection, computerSelection)
+    })
+})
